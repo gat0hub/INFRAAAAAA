@@ -1,0 +1,17 @@
+# Provisioning automatico de Grafana: al levantar el contenedor, este datasource
+# queda creado solo (los alumnos no necesitan configurarlo a mano en la UI).
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    # uid FIJO y no generado al azar. Es lo que permite que un dashboard
+    # exportado a JSON funcione en cualquier instalacion de este laboratorio:
+    # los paneles referencian este uid, no uno que cambia por maquina.
+    uid: prometheus
+    access: proxy
+    # "prometheus" es el nombre del servicio en docker-compose.yml; Docker resuelve
+    # ese nombre dentro de la red interna "monitoring" sin necesidad de IP fija.
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true
